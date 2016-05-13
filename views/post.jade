@@ -1,0 +1,10 @@
+extends layout
+
+block content
+ div.container
+  div.page-header
+   h2 #{post.header.replace(/брат* /,'*')}
+  img(src ="#{post.picture}")
+  a(href='http://s13.ru/archives/#{post.id}' class="btn btn-primary btn-lg") Читать на s13.ru 
+  p #{post.fullСontent}
+    
