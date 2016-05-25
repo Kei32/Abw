@@ -3,7 +3,7 @@ extends layout
 block content
  div.container
   div.page-header
-   h2 #{post.header.replace(/брат* /,'*')}
+   h2 #{post.header}
   img(src ="#{post.picture}")
   a(href='http://www.abw.by/news/#{post.id}' class="btn btn-primary btn-lg") Читать на Abw.by 
   p #{post.fullСontent}

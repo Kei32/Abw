@@ -6,7 +6,32 @@ block content
       div.page-header
         h2 #{posts[i].header}
       img(src ="#{posts[i].picture}")
-      a(href='http://localhost:3000/news/post-#{posts[i].id}' class="btn btn-success btn-lg") Читать полную новость  
-      a(href='http://www.abw.by/news/#{posts[i].id}' class="btn btn-warning btn-lg") Читать на Abw.dy 
+      a(href='http://localhost:3000/news/read/#{posts[i].id}' class="btn btn-success btn-lg") Читать полную новость  
+      a(href='http://www.abw.by/news/#{posts[i].id}' class="btn btn-warning btn-lg") Читать на Abw.by 
       p #{posts[i].summary}   
   - }
+  div.container
+   ul.pagination
+    -if(page == 1)
+     li.disabled
+      a(href="#") &laquo;
+    -else
+     li
+      a(href="http://localhost:3000/news/#{page-1}/") &laquo;
+    -var iterator = 1;
+    -for(;iterator<=allPage;iterator++){
+    -if (iterator == page)
+     li.active
+      a(href='http://localhost:3000/news/#{iterator}/')=iterator
+    -else
+     li
+      a(href='http://localhost:3000/news/#{iterator}/')=iterator
+    -}
+    -if(page == allPage){
+     li.disabled
+      a(href="#") &raquo;
+    -}
+    -else{
+     li
+      a(href="http://localhost:3000/news/#{page+1}/") &raquo;
+    -}

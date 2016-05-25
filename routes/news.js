@@ -4,22 +4,35 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+    res.redirect("/");
+});
 
+router.get('/:page/', function(req, res, next) {
+
+    var page = [req.params.page] - 1;
 	var post = mongoose.model('post');
 
-	post.find(function (err, posts) {
+	post.find().sort({id : -1}).exec(function (err, posts) {
         if (err){
         	return console.error(err);
         	res.render('error', { message: 'Erorr', error: err});
         } 
         else{
-			res.render('news', { title: 'News', posts: posts});
+        	var postInPage= [];
+        	posts.forEach(function(element, index) {
+    			if (Math.floor(index/10) == page){
+    				postInPage.push(element);
+    			}
+			});
+			page++;
+			var allPage = Math.floor(posts.length/10)+1;
+			res.render('news', { title: 'News', style : req.cookies.style,  posts: postInPage, page: page, allPage: allPage });
 		}
     });
 
 });
 
-router.get('/post-:postId/', function(req, res, next) {
+router.get('/*/:postId/', function(req, res, next) {
 	var post = mongoose.model('post');
 	var id = [req.params.postId];
 
@@ -31,10 +44,7 @@ router.get('/post-:postId/', function(req, res, next) {
         else{
         	posts.forEach(function(element, index) {
     			if (element.id == id){
-                    var lol = "привет";
-                    lol = element.header.replace('брата','*');
-                    console.log(lol);
-    				res.render('post', { title: element.header, post: element});
+    				res.render('post', { title: element.header, style : req.cookies.style, post: element});
 
     			}
 			});

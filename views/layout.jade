@@ -3,15 +3,19 @@ html(manifest='/cache/cache.manifest')
   head
    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
    title= title
-   link(rel='stylesheet', href='/stylesheets/Superhero_bootstrap.min.css')
-   //link(rel='stylesheet', href='/stylesheets/Cerulean_bootstrap.min.css') 
+   case style
+    when "1": link(rel='stylesheet', href='/stylesheets/Default_bootstrap.min.css')
+    when "2": link(rel='stylesheet', href='/stylesheets/Superhero_bootstrap.min.css')
+    when "3": link(rel='stylesheet', href='/stylesheets/Cerulean_bootstrap.min.css')
+    when "4": link(rel='stylesheet', href='/stylesheets/United_bootstrap.min.css')
+    default: link(rel='stylesheet', href='/stylesheets/Superhero_bootstrap.min.css')
+
    
    link(rel='stylesheet', href='/stylesheets/sticky-footer-navbar.css')
    script(src='/javascripts/jquery-1.9.1.js')
    script(src='/javascripts/bootstrap.min.js')
   body
    div(class="navbar navbar-default navbar-fixed-top" role="navigation")
-     div(class="container")
        div(class="navbar-header")
          button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
            span(class="sr-only") Toggle navigation
@@ -24,10 +28,35 @@ html(manifest='/cache/cache.manifest')
            li
             a(href="http://localhost:3000/update" class="btn-warning") Update
            li
-            a(href="http://localhost:3000/news" class="btn-success") News
+            a(href="http://localhost:3000/news/1" class="btn-success") News
+         ul(class="nav navbar-nav navbar-right")
+           li(class="dropdown")
+            a(href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false") Search
+             span(class="caret")
+            ul(class="dropdown-menu" role="menu")
+             li
+              form(class="navbar-form" role="search" method = "post" action = "/search")
+               div(class="form-group")
+                input(class="form-control" placeholder="Search" type="text" name = "searchText")
+               div(class="form-group")
+                div(class="radio")
+                 input(name ="radiosHeader"  type="checkbox")
+                 text Искать в загаловке
+                div(class="radio")
+                 input(name ="radiosFull"   type="checkbox") 
+                 text Искать в новости
+               div(class="form-group")
+                button(type="submit" class="btn btn-default") Search
+           li
+            case style
+             when "1": a(href="/tc" class="btn-info") Theme Superhero 
+             when "2": a(href="/tc" class="btn-info") Theme Cerulean 
+             when "3": a(href="/tc" class="btn-info") Theme United 
+             when "4": a(href="/tc" class="btn-info") Theme Default
+             default: a(href="/tc" class="btn-info") Theme Superhero 
+          </ul>
    block content
 
    div#footer
     div.container
      p.text-muted Сделали Литвин Дарья и Тарас Денис. 2016
-            

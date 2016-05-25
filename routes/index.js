@@ -7,7 +7,29 @@ var iconv = require('iconv-lite');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Parsing Abw.by Express' });
+  var style = req.cookies.style;
+  if (style == null){
+  res.cookie("style", 1);
+  style = 1;
+  }
+  res.render('index', { title: 'Parsing Abw.by Express' , style : style });
+});
+
+router.get('/tc', function(req, res, next) {
+  if (req.cookies.style == 1){
+  res.cookie("style", 2);
+  }
+  else if (req.cookies.style == 2){
+    res.cookie("style", 3);
+  }
+  else if (req.cookies.style == 3){
+    res.cookie("style", 4);
+  }
+  else {
+    res.cookie("style", 1);
+  }
+  
+  res.redirect(req.header("Referer"));
 });
 
 router.get('/update', function(req, res, next) {
@@ -75,7 +97,7 @@ router.get('/update', function(req, res, next) {
       		dbSave(id ,header, picture, summary, post);
   		});
 	});
-	res.render('index', { title: 'Parsing Abw.by Express'});
+	res.render('update', { title: 'Parsing Abw.by Express', style : req.cookies.style});
 });
 
 module.exports = router;
